@@ -1,17 +1,16 @@
+import serial
 import time
-import adafruit_dht
-import digitalio
-from adafruit_blinka.microcontroller.generic_linux.libgpiod_pin import Pin
 
-dhtDevice = adafruit_dht.DHT22(Pin(4))
+ser = serial.Serial('/dev/ttyS1', 9600)  # Adjust to your COM port
 
-while True:
-    try:
-        temperature = dhtDevice.temperature
-        humidity = dhtDevice.humidity
-        print(f"Temp: {temperature:.1f}C Humidity: {humidity:.1f}%")
-    except RuntimeError as error:
-        print(error.args[0])
-    time.sleep(2)
+def read_serial():
+    if ser.in_waiting > 0:
+        line = ser.readline().decode('utf-8').rstrip()
+        print(f"Serial read: {line}")
+
+if __name__ == "__main__":
+    while True:
+        read_serial()
+        time.sleep(2)
 
 
