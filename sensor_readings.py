@@ -2,6 +2,7 @@ import time
 import board
 import adafruit_dht
 
+# Initialize the DHT22 sensor
 DHT_SENSOR = adafruit_dht.DHT22(board.D4)  # Use the appropriate GPIO pin
 
 def read_dht22():
