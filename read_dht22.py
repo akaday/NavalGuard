@@ -1,12 +1,18 @@
-from gpiozero import LED
-from time import sleep
+import time
+import Adafruit_DHT
 
-led = LED(17)  # Use the appropriate GPIO pin number
+DHT_SENSOR = Adafruit_DHT.DHT22
+DHT_PIN = 4  # Use the appropriate GPIO pin number
 
-while True:
-    led.on()
-    print("LED on")
-    sleep(1)
-    led.off()
-    print("LED off")
-    sleep(1)
+def read_dht22():
+    humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
+    if humidity is not None and temperature is not None:
+        print(f"Temp={temperature:.1f}C  Humidity={humidity:.1f}%")
+    else:
+        print("Failed to retrieve data from humidity sensor")
+
+if __name__ == "__main__":
+    while True:
+        read_dht22()
+        time.sleep(2)
+
