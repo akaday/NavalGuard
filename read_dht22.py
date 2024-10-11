@@ -1,16 +1,17 @@
 import time
-from gpiozero import LED, Button
+import adafruit_dht
+import digitalio
+from adafruit_blinka.microcontroller.generic_linux.libgpiod_pin import Pin
 
-led = LED(17)  # Use the appropriate GPIO pin
-button = Button(2)  # Example button on GPIO pin 2
-
-def toggle_led():
-    led.toggle()
-    print("LED toggled")
-
-button.when_pressed = toggle_led
+dhtDevice = adafruit_dht.DHT22(Pin(4))
 
 while True:
-    time.sleep(1)
+    try:
+        temperature = dhtDevice.temperature
+        humidity = dhtDevice.humidity
+        print(f"Temp: {temperature:.1f}C Humidity: {humidity:.1f}%")
+    except RuntimeError as error:
+        print(error.args[0])
+    time.sleep(2)
 
 
