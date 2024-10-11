@@ -2,7 +2,7 @@ import time
 import board
 import adafruit_dht
 
-DHT_SENSOR = adafruit_dht.DHT22(board.D4)
+DHT_SENSOR = adafruit_dht.DHT22(board.D4)  # Use the appropriate GPIO pin
 
 def read_dht22():
     try:
@@ -18,5 +18,4 @@ def read_dht22():
 if __name__ == "__main__":
     while True:
         read_dht22()
-        time.sleep(2)
-
+        time.sleep(2)  # Read every 2 seconds
