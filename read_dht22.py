@@ -1,16 +1,20 @@
-import serial
 import time
+import adafruit_dht
+from adafruit_blinka.microcontroller.generic_linux.libgpiod_pin import Pin
 
-ser = serial.Serial('/dev/ttyS1', 9600)  # Adjust to your COM port
+DHT_SENSOR = adafruit_dht.DHT22(Pin(4))  # Use the appropriate GPIO pin number
 
-def read_serial():
-    if ser.in_waiting > 0:
-        line = ser.readline().decode('utf-8').rstrip()
-        print(f"Serial read: {line}")
+while True:
+    try:
+        temperature = DHT_SENSOR.temperature
+        humidity = DHT_SENSOR.humidity
+        if humidity is not None and temperature is not None:
+            print(f"Temp={temperature:.1f}C  Humidity={humidity:.1f}%")
+        else:
+            print("Failed to retrieve data from humidity sensor")
+    except RuntimeError as error:
+        print(error.args[0])
+    time.sleep(2)
 
-if __name__ == "__main__":
-    while True:
-        read_serial()
-        time.sleep(2)
 
 
