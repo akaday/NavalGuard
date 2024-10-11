@@ -1,13 +1,13 @@
-from gpiozero import LED
-from time import sleep
+import time
+from w1thermsensor import W1ThermSensor
 
-led = LED(17)  # Use the appropriate GPIO pin number
+sensor = W1ThermSensor()
 
-while True:
-    led.on()
-    print("LED on")
-    sleep(1)
-    led.off()
-    print("LED off")
-    sleep(1)
+def read_ds18b20():
+    temperature = sensor.get_temperature()
+    print(f"Temperature: {temperature:.2f}C")
 
+if __name__ == "__main__":
+    while True:
+        read_ds18b20()
+        time.sleep(2)
