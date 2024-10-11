@@ -1,13 +1,15 @@
 import time
-import sensor
+import board
+import adafruit_dht
 
-DHT_SENSOR = sensor.DHT22(pin=4)  # Adjust pin number as needed
+DHT_SENSOR = adafruit_dht.DHT22(board.D4)  # Use the appropriate GPIO pin
 
 def read_dht22():
     try:
-        result = DHT_SENSOR.read()
-        if result.is_valid():
-            print(f"Temp={result.temperature:.1f}C  Humidity={result.humidity:.1f}%")
+        temperature = DHT_SENSOR.temperature
+        humidity = DHT_SENSOR.humidity
+        if humidity is not None and temperature is not None:
+            print(f"Temp={temperature:.1f}C  Humidity={humidity:.1f}%")
         else:
             print("Failed to retrieve data from humidity sensor")
     except Exception as e:
